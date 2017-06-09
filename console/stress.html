@@ -5,6 +5,8 @@
 
   <button id="do-logs">LOL With Objects (Lots Of Logs)</button>
   <button id="do-logs-no-obj">LOL Without Objects (Lots Of Logs)</button>
+  <button id="do-logs-repeats">Lots of Repeats</button>
+  <button id="do-logs-groups">Lots of Groups</button>
   <button id="stream-logs">Streaming logs (Press 'T' key)</button>
 
   <div id="streaming-info"></div>
@@ -15,12 +17,13 @@
   <script>
 
   var i = 0;
+  var BULK_COUNT = 10000;
   var includeObj = false;
 
   function doLogs() {
     var totalStartTime = performance.now();
     var results = [];
-    for (i = 0; i < 10000; i++) {
+    for (i = 0; i < BULK_COUNT; i++) {
       var startTime = performance.now();
       a();
       if (i % 2) {
@@ -50,6 +53,28 @@
   document.querySelector("#do-logs").onclick = function() {
     includeObj = true;
     doLogs();
+  }
+  document.querySelector("#do-logs-repeats").onclick = function() {
+    for (i = 0; i < BULK_COUNT; i++) {
+      console.log("Repeated message");
+    }
+  }
+  document.querySelector("#do-logs-groups").onclick = function() {
+    console.group("Big1");
+    for (i = 0; i < 1000; i++) {
+      console.log("Big1, message " + i);
+    }
+    console.groupEnd("Big1");
+    console.group("Big2");
+    for (i = 0; i < 1000; i++) {
+      console.log("Big2, message " + i);
+    }
+    console.groupEnd("Big2");
+    console.groupCollapsed("Big3");
+    for (i = 0; i < 1000; i++) {
+      console.log("Big3, message " + i);
+    }
+    console.groupEnd("Big3");
   }
 
   function a() { b() }
